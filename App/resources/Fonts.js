@@ -1,0 +1,21 @@
+const AppFonts = {
+  font_black: "OpenSans-Black",
+  font_black_italic: "OpenSans-BlackItalic",
+  font_bold:"OpenSans-Bold",
+  font_bold_italic:"OpenSans-BoldItalic",
+  font_bold_extra:"OpenSans-ExtraBold",
+  font_bold_extra_italic:"OpenSans-ExtraBoldItalic",
+  font_light_extra:"OpenSans-ExtraLight",
+  font_light_extra_italic:"OpenSans-ExtraLightItalic",
+  font_italic:"OpenSans-Italic",
+  font_light:"OpenSans-Light",
+  font_light_italic:"OpenSans-LightItalic",
+  font_medium:"OpenSans-Medium",
+  font_medium_italic:"OpenSans-MediumItalic",
+  font_regular:"OpenSans-Regular",
+  font_semi_bold:"OpenSans-SemiBold",
+  font_semi_bold_italic:"OpenSans-MediumItalic",
+  font_thin:"OpenSans-Thin",
+  font_thin_italic:"OpenSans-ThinItalic",
+};
+export default AppFonts;
