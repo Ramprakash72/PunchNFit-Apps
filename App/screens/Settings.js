@@ -16,13 +16,7 @@ import {
 import {Colors,Strings,AppFonts,ScaleSizeUtils,TextFontSize} from '../resources/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SplashScreen = ({navigation}) => {
-
-  // useEffect({
-  //   // setTimeout(function () {
-  //   //   navigation.navigate("Settings")
-  //   // }, 10);
-  // }, [])
+const Settings = ({navigation}) => {
 
   return (
     <>
@@ -140,4 +134,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SplashScreen;
+export default Settings;

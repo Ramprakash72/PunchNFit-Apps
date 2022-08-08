@@ -37,12 +37,6 @@ const ForgotPasswordScreen = ({navigation}) => {
 
   const [emailError, setEmailError] = useState(null);
 
-  // useEffect({
-  //   // setTimeout(function () {
-  //   //   navigation.navigate("Settings")
-  //   // }, 10);
-  // }, [])
-
   function doForgotPassword() {
     var isValid = true;
     if(Utils.isStringNull(email)) {

@@ -26,7 +26,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ChangePassword} from "../../actions/authentication";
 let deviceHeight = Dimensions.get('window').height
 
-const LoginScreen = ({navigation}) => {
+const ChangePasswordScreen = ({navigation}) => {
 
   const dispatch = useDispatch();
 
@@ -290,4 +290,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default ChangePasswordScreen;

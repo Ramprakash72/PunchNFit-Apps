@@ -17,41 +17,8 @@ Amplify.configure({
       }
     }
   }
-  // bots: {
-  //   ['ONE']: {
-  //     botId: 'TXJW3C91QQ',
-  //     botAliasId: 'VOPSBKH09J',
-  //     localeId: 'myBotLocaleId',
-  //     region: 'us-east-1',
-  //     providerName: 'AWSLex2Provider',
-  //   },
-  // },
-  // "aws_project_region": "us-east-1",
-  //   "aws_cognito_identity_pool_id": "us-east-1:e8892a3c-c393-4df6-bc77-53775add5a13",
-  //   "aws_cognito_region": "us-east-1",
-  //   "oauth": {},
-  //   "aws_bots": "enable",
-  //   "aws_bots_config": [
-  //       {
-  //           "name": "ONE",
-  //           "alias": "$LATEST",
-  //           "region": "us-east-1"
-  //       }
-  //   ],
-  //   "lex": {
-  //       "v2BotAliasId": "VOPSBKH09J",
-  //       "v2BotId": "TXJW3C91QQ",
-  //       "botName": "ONE",
-  //   }
 });
 
-//
-// Auth.configure({
-//   Auth: {
-//     identityPoolId: 'us-east-1:e8892a3c-c393-4df6-bc77-53775add5a13',
-//     region: 'us-east-1'
-//   },
-// });
 Amplify.Logger.LOG_LEVEL = 'DEBUG';
 const styles = StyleSheet.create({
   container: {
@@ -63,7 +30,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class App extends Component {
+export default class SupportScreen extends Component {
   state = {
     botName: 'testOne',
     welcomeMessage: 'Welcome, what would you like to do today?'

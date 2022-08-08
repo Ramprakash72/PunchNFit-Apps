@@ -30,7 +30,7 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 let deviceHeight = Dimensions.get('window').height
 
-const LoginScreen = ({navigation}) => {
+const SignUpScreen = ({navigation}) => {
 
   const dispatch = useDispatch()
 
@@ -55,9 +55,6 @@ const LoginScreen = ({navigation}) => {
   const [confirmPasswordError, setConfirmPasswordError] = useState(null);
 
   // useEffect({
-  //   // setTimeout(function () {
-  //   //   navigation.navigate("Settings")
-  //   // }, 10);
   // }, [])
 
   function doLogin() {
@@ -424,4 +421,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default SignUpScreen;

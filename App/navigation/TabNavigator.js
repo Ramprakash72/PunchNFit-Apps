@@ -19,9 +19,6 @@ import {
   StyleSheet,
 } from 'react-native';
 
-//import TabBar from "@mindinventory/react-native-tab-bar-interaction";
-
-
 const tabs = [
   {
     name: 'SETTINGS',

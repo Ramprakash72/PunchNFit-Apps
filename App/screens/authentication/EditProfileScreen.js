@@ -26,7 +26,7 @@ import ProgressLoader from '../../components/ProgressLoader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 let deviceHeight = Dimensions.get('window').height
 
-const LoginScreen = ({navigation}) => {
+const EditProfileScreen = ({navigation}) => {
 
   const dispatch = useDispatch();
 
@@ -610,4 +610,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default EditProfileScreen;

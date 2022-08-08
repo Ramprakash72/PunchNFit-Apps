@@ -39,7 +39,7 @@ var Buffer = require('buffer/').Buffer
 
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule)
 
-const App = ({navigation, route}) => {
+const DeviceConnectionListScreen = ({navigation, route}) => {
   const [isScanning, setIsScanning] = useState(false);
   const peripherals = new Map();
   const [list, setList] = useState([]);
@@ -74,65 +74,30 @@ const App = ({navigation, route}) => {
       }
   }
 
-  const handleDisconnectedPeripheral = (data) => {
-    // let peripheral = peripherals.get(data.peripheral);
-    // if (peripheral) {
-    //   peripheral.connected = false;
-    //   peripherals.set(peripheral.id, peripheral);
-    //   console.log("Dataaa  => "+JSON.stringify(peripherals));
-    //   //setConnectableList(Array.from(peripherals.values()));
-    // }
-    //retrieveConnected();
-  }
 
   const handleUpdateValueForCharacteristic = (data) => {
-        const buffer = Buffer.from(data.value);
+    const buffer = Buffer.from(data.value);
 
-        const decodedValue = buffer.readFloatLE(0, true);
+    const decodedValue = buffer.readFloatLE(0, true);
 
-        let valueListSelected = notificationValueList.filter(item => item.characteristicId !== data.characteristic);
-             setNotificationValueList([...valueListSelected, {value: decodedValue, characteristicId: data.characteristic}])
-    // console.log("Data ====> "+bin2String(data.value) );
-    // console.log("Data ====> "+ toHexString(data.value));
-    // console.log("Data ====> "+ convertStringToByteArray("48"));
-    //
-    // console.log('Received data from ' + data.peripheral + ' characteristic ' + data.characteristic, "aaa "+data.value);
+    let valueListSelected = notificationValueList.filter(item => item.characteristicId !== data.characteristic);
+    setNotificationValueList([...valueListSelected, {value: decodedValue, characteristicId: data.characteristic}])
   }
-function bin2String(array) {
-  return String.fromCharCode.apply(String, array);
-}
+
+  function bin2String(array) {
+    return String.fromCharCode.apply(String, array);
+  }
 
   const retrieveConnected = () => {
     BleManager.getConnectedPeripherals([]).then((results) => {
     const peripherals = new Map();
       if (results.length == 0) {
       }
-      //console.log(""+JSON.stringify(results));
       for (var i = 0; i < results.length; i++) {
         var peripheral = results[i];
         peripheral.connected = true;
         peripheral.isConntected = true;
         peripherals.set(peripheral.id, peripheral);
-        // for (var a = 0; a < peripheral.characteristics.length; a++) {
-        //   if(peripheral.characteristics[a].properties.includes("Read")) {
-        //     BleManager.startNotification(peripheral.id, peripheral.characteristics[a].service, peripheral.characteristics[a].characteristic);
-        //   } else if(peripheral.characteristics[a].properties.includes("Write")) {
-        //     BleManager.write(
-        //         peripheral.id,
-        //         peripheral.characteristics[a].service,
-        //         peripheral.characteristics[a].characteristic,
-        //         convertStringToByteArray("28")
-        //       )
-        //         .then(() => {
-        //           // Success code
-        //           console.log("Write: " + convertStringToByteArray("28"));
-        //         })
-        //         .catch((error) => {
-        //           // Failure code
-        //           console.log(error);
-        //         });
-        //   }
-        // }
       }
     });
   }
@@ -319,6 +284,7 @@ function bin2String(array) {
     </>
   );
 };
+
 {/* + (isScanning ? 'on' : 'off') + ') */}
 const styles = StyleSheet.create({
   scrollView: {
@@ -437,4 +403,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default DeviceConnectionListScreen;

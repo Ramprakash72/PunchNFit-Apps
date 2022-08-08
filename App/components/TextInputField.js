@@ -16,8 +16,6 @@ import {
 } from 'react-native';
 import {Colors,Strings,AppFonts,ScaleSizeUtils,TextFontSize} from '../resources/index';
 
-
-// eslint-disable-next-line react/prefer-stateless-function
 export default class TextInputField extends React.PureComponent<TabbarProps> {
 
   constructor (props) {

@@ -20,7 +20,7 @@ import Utils from "../../helper/Utils";
 let deviceHeight = Dimensions.get('window').height
 let deviceWidth = Dimensions.get('window').width
 
-const LoginScreen = ({navigation, route}) => {
+const YoutubeVideoPlayScreen = ({navigation, route}) => {
 
   const playerRef = useRef();
   const [isLoading, setLoading] = useState(true);
@@ -168,4 +168,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default YoutubeVideoPlayScreen;

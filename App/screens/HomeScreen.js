@@ -56,7 +56,7 @@ const emptyObject = {
       punch_count: 0,
     };
 
-const SplashScreen = ({navigation}) => {
+const HomeScreen = ({navigation}) => {
 
   const dispatch = useDispatch();
 
@@ -126,7 +126,6 @@ const SplashScreen = ({navigation}) => {
       setPunchRightDataArray([]);
       punchDataRightArray = [emptyObject]
       dispatch(AddPunchData(body))
-      //setPunchDataArray([])
     }
   }
 
@@ -169,12 +168,6 @@ const SplashScreen = ({navigation}) => {
   }, [isDeviceConnected, submitButton]);
 
   function refreshValue() {
-  // setVelocityRight(0);
-  //   setVelocityLeft(0);
-    // if(flatListRef && flatListRef.current)
-    //   flatListRef.current.snapToItem(0, true, true );
-    // if(flatListLeftRef && flatListLeftRef.current)
-    // flatListLeftRef?.current?.snapToItem(0, true , true )
     if(lastMovmentRightTime) {
       var secondBetweenTwoDate = Math.abs((new Date().getTime() - lastMovmentRightTime.getTime()) / 1000);
       if(secondBetweenTwoDate > 5) {
@@ -218,34 +211,41 @@ const SplashScreen = ({navigation}) => {
       setTimeout(async function () {
         const isEnabled = await BluetoothStatus.state();
         if(isEnabled == true){
-          if(leftConnectedDevice)
-          await BleManager.isPeripheralConnected(
-            leftConnectedDevice,
-            []
-          ).then(async (isConnected) => {
-            if (isConnected) {
-              retriveServices(leftConnectedDevice, true);
-            } else {
-              await connectDevice(leftConnectedDevice, true)
-            }
-          }).catch((error)=> {
+          
+          /*--LEFT DEVICE CONNECT--*/
+          if(leftConnectedDevice) {
+            await BleManager.isPeripheralConnected(
+              leftConnectedDevice,
+              []
+            ).then(async (isConnected) => {
+              if (isConnected) {
+                retriveServices(leftConnectedDevice, true);
+              } else {
+                await connectDevice(leftConnectedDevice, true)
+              }
+            }).catch((error)=> {
 
-            setLoading(false);
-          });
-          if(rightConnectedDevice)
-          await BleManager.isPeripheralConnected(
-            rightConnectedDevice,
-            []
-          ).then(async (isConnected) => {
-            if (isConnected) {
-              retriveServices(rightConnectedDevice, false);
-            } else {
-              await connectDevice(rightConnectedDevice, false)
-            }
-          }).catch((error)=> {
+              setLoading(false);
+            });
+          }
 
-            setLoading(false);
-          });
+          /*--RIGHT DEVICE CONNECT--*/
+          if(rightConnectedDevice) {
+            await BleManager.isPeripheralConnected(
+              rightConnectedDevice,
+              []
+            ).then(async (isConnected) => {
+              if (isConnected) {
+                retriveServices(rightConnectedDevice, false);
+              } else {
+                await connectDevice(rightConnectedDevice, false)
+              }
+            }).catch((error)=> {
+
+              setLoading(false);
+            });
+          }
+
         } else {
           setLoading(false);
         }
@@ -264,10 +264,6 @@ const SplashScreen = ({navigation}) => {
   }, [leftConnectedDevice, rightConnectedDevice])
 
   async function init() {
-    // const timeout = setTimeout(() => {
-    //   //flatListRef.current.snapToItem(10, true, true);
-    // }, 1060)
-
     var leftId = await AsyncStorage.getItem('@leftHand')
     if(leftId) {
       setLeftConnectedDevice(leftId)
@@ -345,11 +341,9 @@ const SplashScreen = ({navigation}) => {
               )
                 .then(() => {
                   // Success code
-                  //console.log("Write: " + convertStringToByteArray("28"));
                 })
                 .catch((error) => {
                   // Failure code
-                  //console.log(error);
                 });
           }
         }
@@ -545,33 +539,27 @@ const SplashScreen = ({navigation}) => {
 
   }
 
+  /*--RETIVE CHARACTERISTICS UPDATE LISTENER--*/
   const handleUpdateValueForCharacteristic = (data) => {
-        // var leftConnectedDevice = await AsyncStorage.getItem('@leftHand')
-        // var rightConnectedDevice = await AsyncStorage.getItem('@rightHand')
         try {
-
         const buffer = Buffer.from(data.value);
-
         const decodedValue = buffer.readInt8(0);
 
+        /*--SPEED DECODE--*/
         if(data.service.toUpperCase() === "ECB48F12-1BD0-4161-9DAE-9EFAB22F62A8") {
             if(data.peripheral === rightConnectedDevice) {
               setLastMovementRight(new Date());
               setVelocityRightCallBack(decodedValue > 0 ? decodedValue : 0);
-              if(flatListRef && flatListRef.current)
-                flatListRef.current.snapToItem(decodedValue > 0 ? decodedValue:0, true, true );
-
               setPunchData("right", "speed", decodedValue)
             } else if(data.peripheral === leftConnectedDevice) {
               setLastMovementLeft(new Date());
-              if(flatListLeftRef && flatListLeftRef.current)
-                flatListLeftRef?.current?.snapToItem(decodedValue > 0 ? decodedValue:0, true , true )
 
               setVelocityLeftCallBack( decodedValue > 0 ? decodedValue : 0 );
               setPunchData("left", "speed", decodedValue)
             }
         }
 
+        /*--MOMENTUMN DECODE--*/
         if(data.service.toUpperCase() === "7136237E-ACDA-4AF7-9AF4-112A64DD4D3C") {
             if(data.peripheral === rightConnectedDevice) {
               setMomentumRightCallBack(decodedValue);
@@ -584,6 +572,7 @@ const SplashScreen = ({navigation}) => {
             }
         }
 
+        /*--JOULD AND KCI CALCULATION--*/
         if(data.service.toUpperCase() === "0B37C1DC-6027-44B7-8707-A06C6253A2A7") {
             if(data.peripheral === rightConnectedDevice) {
               setJoulsRightCallBack(decodedValue);
@@ -595,6 +584,8 @@ const SplashScreen = ({navigation}) => {
               setPunchData("left", "joule", decodedValue)
             }
         }
+
+        /*--PUNCH TYPE DECODE--*/
         if(data.characteristic.toUpperCase() === "0000fd1d-0000-1000-8000-00805f9b34fb".toUpperCase() || data.characteristic.toUpperCase() === "FD1D".toUpperCase()) {
 
 
@@ -606,17 +597,14 @@ const SplashScreen = ({navigation}) => {
               setPunchData("left", "punch_type", buffer.readUIntBE(0, data.value.length))
             }
         }
+
+        /*--PUNCH COUNT DECODE--*/
         if(data.characteristic.toUpperCase() === "0000fd1e-0000-1000-8000-00805f9b34fb".toUpperCase() || data.characteristic.toUpperCase() === "FD1E".toUpperCase()) {
-
-
             if(data.peripheral === rightConnectedDevice) {
               setPunchCountRight(buffer.readUIntBE(0, data.value.length));
-
               setPunchData("right", "punch_count", buffer.readUIntBE(0, data.value.length))
-
             } else if(data.peripheral === leftConnectedDevice) {
               setPunchCountLeft(buffer.readUIntBE(0, data.value.length));
-
               setPunchData("left", "punch_count", buffer.readUIntBE(0, data.value.length))
 
             }
@@ -635,53 +623,12 @@ const SplashScreen = ({navigation}) => {
     return result;
   }
 
-    const retrieveConnected = () => {
-      BleManager.getConnectedPeripherals([]).then(async (results) => {
-      const peripherals = new Map();
-        if (results.length == 0) {
-        }
-        //console.log(""+JSON.stringify(results));
-        for (var i = 0; i < results.length; i++) {
-          var peripheral = results[i];
-          peripheral.connected = true;
-          peripheral.isConntected = true;
-          peripherals.set(peripheral.id, peripheral);
-          for (var a = 0; a < peripheral.characteristics.length; a++) {
-            if(peripheral.characteristics[a].properties.includes("Read")) {
-              await BleManager.startNotification(peripheral.id, peripheral.characteristics[a].service, peripheral.characteristics[a].characteristic);
-            } else if(peripheral.characteristics[a].properties.includes("Write")) {
-              await BleManager.write(
-                  peripheral.id,
-                  peripheral.characteristics[a].service,
-                  peripheral.characteristics[a].characteristic,
-                  convertStringToByteArray("14")
-                );
-            }
-          }
-        }
-      });
-    }
-
   function HeaderTypeLabel({title}) {
     return (<View style={styles.labelHeaderContainer} >
               <Text style={styles.labelText}>{title}</Text>
             </View>
           )
   }
-
-  // function TrackingValueLabel({title, value, measureType, icon}) {
-  //   return (<View style={styles.trackingItemContainer} >
-  //             <View style={{flex: 1}}>
-  //               <Text style={styles.trackingItemHeaderText}>{title}</Text>
-  //               <View style={{flexDirection: 'row'}} >
-  //                 <Text style={styles.trackingItemValueText}>{value}</Text>
-  //                 {measureType ? <Text style={styles.trackingItemValueMeasureTypeText}>{measureType}</Text> : null}
-  //               </View>
-  //             </View>
-  //             <Image style={styles.trackingItemImage} source={icon} />
-  //           </View>
-  //         )
-  // }
 
   function PunchCountLabel({title, value}) {
     return (<View style={styles.trackingItemContainer} >
@@ -691,10 +638,6 @@ const SplashScreen = ({navigation}) => {
               </View>
             </View>
           )
-  }
-
-  function RenderSpeedItem({refs, value}) {
-
   }
 
   const exerciseListItem = ({item, index }) => (
@@ -1111,4 +1054,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SplashScreen;
+export default HomeScreen;

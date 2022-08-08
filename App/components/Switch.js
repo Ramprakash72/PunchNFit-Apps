@@ -66,12 +66,10 @@ const Switch= (props) => {
              return (
                <TouchableOpacity
                 style={styles.tabParentContainer} onPress={() => {
-                 //setSelectedIndex(index)
                  props.setSelectedIndex(index);
                }} >
                   {props.selectedIndex+"" === ""+index ?
                     <Animated.View style={indicatorStyle} >
-                    {/*<Shadow style={styles.shadowContainer} />*/}
                     </ Animated.View> :
                     null
                   }

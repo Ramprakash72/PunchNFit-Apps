@@ -21,7 +21,7 @@ import Utils from "../../helper/Utils";
 import { WebView } from 'react-native-webview';
 let deviceHeight = Dimensions.get('window').height
 
-const PrivacyPolicyScreen = ({navigation}) => {
+const TermsAndConditionScreen = ({navigation}) => {
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -181,4 +181,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PrivacyPolicyScreen;
+export default TermsAndConditionScreen;

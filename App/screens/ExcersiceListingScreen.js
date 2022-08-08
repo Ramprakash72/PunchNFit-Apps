@@ -45,7 +45,7 @@ import TrackingMeter from '../components/TrackingMeter';
 import ProgressLoader from '../components/ProgressLoader';
 import Carousel from 'react-native-snap-carousel';
 
-const SplashScreen = ({navigation}) => {
+const ExcersiceListingScreen = ({navigation}) => {
 
   const dispatch = useDispatch();
 
@@ -387,4 +387,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SplashScreen;
+export default ExcersiceListingScreen;

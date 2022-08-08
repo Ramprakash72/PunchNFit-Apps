@@ -18,8 +18,8 @@ import YoutubeVideoPlayScreen from '../screens/authentication/YoutubeVideoPlaySc
 import ChangePasswordScreen from '../screens/authentication/ChangePasswordScreen';
 
 import { LogBox } from 'react-native';
-LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
-LogBox.ignoreAllLogs();//Ignore all log notification
+LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs();
 
 
 const Stack = createNativeStackNavigator();
